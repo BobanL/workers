@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:a="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/frameLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".DashboardFragment"
+            android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/postedJobText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Jobs Posted"
+                    />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="#fff"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/baseline_add_black_18dp"
+                    android:layout_toRightOf="@id/postedJobText"
+                    android:layout_alignTop="@id/postedJobText"/>
+
+                <ListView
+                    android:id="@+id/listViewPosted"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/postedJobText"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".DashboardFragment"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/appliedJobsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Applied Jobs:"
+                />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="#fff"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/baseline_add_black_18dp"
+                android:layout_toRightOf="@id/appliedJobsText"
+                android:layout_alignTop="@id/appliedJobsText"/>
+
+            <ListView
+                android:id="@+id/listViewApplied"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/appliedJobsText"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addProjectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/baseline_add_black_18dp"
+            android:clickable="true"/>
+    </LinearLayout>
+
+</RelativeLayout>
