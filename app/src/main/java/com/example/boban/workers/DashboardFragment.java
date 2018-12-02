@@ -1,5 +1,7 @@
 package com.example.boban.workers;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,7 +59,12 @@ public class DashboardFragment extends Fragment {
         addProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                AddProjectFragment nextFrag = new AddProjectFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, nextFrag,"findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+
             }
         });
 
