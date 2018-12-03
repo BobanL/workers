@@ -1,20 +1,15 @@
 package com.example.boban.workers;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class DashboardFragment extends Fragment {
@@ -41,17 +36,7 @@ public class DashboardFragment extends Fragment {
         listViewJobsPosted = v.findViewById(R.id.listViewPosted);
 
         jobs = new ArrayList<>();
-        jobs.add(new Jobs("Name1", "Loc1", "Pending", "100"));
-        jobs.add(new Jobs("Name2", "Loc12", "Pending3", "102"));
-        jobs.add(new Jobs("Name3", "Loc12", "Pending3", "103"));
-        jobs.add(new Jobs("Name1", "Loc1", "Pending", "100"));
-        jobs.add(new Jobs("Name2", "Loc12", "Pending3", "102"));
-        jobs.add(new Jobs("Name3", "Loc12", "Pending3", "103"));
-        jobs.add(new Jobs("Name1", "Loc1", "Pending", "100"));
-        jobs.add(new Jobs("Name2", "Loc12", "Pending3", "102"));
-        jobs.add(new Jobs("Name3", "Loc12", "Pending3", "103"));
         adapter = new CustomAdapter(jobs,v.getContext());
-
         listViewJobsPosted.setAdapter(adapter);
         adapter = new CustomAdapter(jobs,v.getContext());
         listViewJobsApplied.setAdapter(adapter);
@@ -64,7 +49,6 @@ public class DashboardFragment extends Fragment {
                         .replace(R.id.frame_layout, nextFrag,"findThisFragment")
                         .addToBackStack(null)
                         .commit();
-
             }
         });
 

@@ -1,16 +1,33 @@
 package com.example.boban.workers;
 
+import android.graphics.Bitmap;
+
+import java.util.ArrayList;
+
 public class Jobs {
     private String jobName;
     private String jobLocation;
     private String jobStatus;
     private String jobCost;
+    private String jobDescription;
+    private ArrayList<Bitmap> jobImages;
 
-    public Jobs(String jobName, String jobLocation, String jobStatus, String jobCost) {
+    public Jobs(String jobName, String jobLocation, String jobDescription) {
         this.jobName = jobName;
         this.jobLocation = jobLocation;
-        this.jobStatus = jobStatus;
+        this.jobDescription = jobDescription;
+    }
+
+    public void setJobCost(String jobCost) {
         this.jobCost = jobCost;
+    }
+
+    public String getJobDescription() {
+        return jobDescription;
+    }
+
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
     }
 
     public String getJobName() {
