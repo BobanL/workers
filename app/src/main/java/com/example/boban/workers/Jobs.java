@@ -1,33 +1,31 @@
 package com.example.boban.workers;
 
 import android.graphics.Bitmap;
+import android.util.Base64;
 
 import java.util.ArrayList;
 
 public class Jobs {
     private String jobName;
-    private String jobLocation;
+    private String jobDescription;
+    private ArrayList<String> jobImages;
+    private String jobStreet;
+    private String jobCity;
+    private int jobZip;
+    private String jobSubmitter;
+    private long jobPostedDate;
     private String jobStatus;
     private String jobCost;
-    private String jobDescription;
-    private ArrayList<Bitmap> jobImages;
 
-    public Jobs(String jobName, String jobLocation, String jobDescription) {
+    public Jobs(String jobName, String jobDescription, ArrayList<String> jobImages, String jobStreet, String jobCity, int jobZip, String jobSubmitter, long jobPostedDate) {
         this.jobName = jobName;
-        this.jobLocation = jobLocation;
         this.jobDescription = jobDescription;
-    }
-
-    public void setJobCost(String jobCost) {
-        this.jobCost = jobCost;
-    }
-
-    public String getJobDescription() {
-        return jobDescription;
-    }
-
-    public void setJobDescription(String jobDescription) {
-        this.jobDescription = jobDescription;
+        this.jobImages = jobImages;
+        this.jobStreet = jobStreet;
+        this.jobCity = jobCity;
+        this.jobZip = jobZip;
+        this.jobSubmitter = jobSubmitter;
+        this.jobPostedDate = jobPostedDate;
     }
 
     public String getJobName() {
@@ -38,12 +36,60 @@ public class Jobs {
         this.jobName = jobName;
     }
 
-    public String getJobLocation() {
-        return jobLocation;
+    public String getJobDescription() {
+        return jobDescription;
     }
 
-    public void setJobLocation(String jobLocation) {
-        this.jobLocation = jobLocation;
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
+    }
+
+    public ArrayList<String> getJobImages() {
+        return jobImages;
+    }
+
+    public void setJobImages(ArrayList<String> jobImages) {
+        this.jobImages = jobImages;
+    }
+
+    public String getJobStreet() {
+        return jobStreet;
+    }
+
+    public void setJobStreet(String jobStreet) {
+        this.jobStreet = jobStreet;
+    }
+
+    public String getJobCity() {
+        return jobCity;
+    }
+
+    public void setJobCity(String jobCity) {
+        this.jobCity = jobCity;
+    }
+
+    public int getJobZip() {
+        return jobZip;
+    }
+
+    public void setJobZip(int jobZip) {
+        this.jobZip = jobZip;
+    }
+
+    public String getJobSubmitter() {
+        return jobSubmitter;
+    }
+
+    public void setJobSubmitter(String jobSubmitter) {
+        this.jobSubmitter = jobSubmitter;
+    }
+
+    public long getJobPostedDate() {
+        return jobPostedDate;
+    }
+
+    public void setJobPostedDate(long jobPostedDate) {
+        this.jobPostedDate = jobPostedDate;
     }
 
     public String getJobStatus() {
@@ -58,7 +104,7 @@ public class Jobs {
         return jobCost;
     }
 
-    public void setjobCost(String jobCost) {
+    public void setJobCost(String jobCost) {
         this.jobCost = jobCost;
     }
 }

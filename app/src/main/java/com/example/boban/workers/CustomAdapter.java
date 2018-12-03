@@ -68,7 +68,7 @@ public class CustomAdapter extends ArrayAdapter<Jobs> implements View.OnClickLis
         lastPosition = position;
 
         viewHolder.jobName.setText(Jobs.getJobName());
-        viewHolder.jobLocation.setText(Jobs.getJobLocation());
+        viewHolder.jobLocation.setText(Jobs.getJobCity());
         viewHolder.jobStatus.setText(Jobs.getJobStatus());
         viewHolder.jobCost.setText(Jobs.getJobCost());
         // Return the completed view to render on screen

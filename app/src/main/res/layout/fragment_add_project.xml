@@ -7,6 +7,40 @@
     android:layout_height="match_parent"
     tools:context=".AddProjectFragment">
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/user_input_layout5"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_input_layout">
+
+        <EditText
+            android:id="@+id/jobZipCodeText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Zip"
+            android:inputType="number" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/user_input_layout4"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/user_input_layout5"
+        app:layout_constraintStart_toEndOf="@+id/user_input_layout3"
+        app:layout_constraintTop_toBottomOf="@+id/user_input_layout">
+
+        <EditText
+            android:id="@+id/jobCityText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="City" />
+    </android.support.design.widget.TextInputLayout>
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -58,20 +92,20 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/user_input_layout3"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintEnd_toStartOf="@+id/user_input_layout4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_input_layout">
 
         <EditText
-            android:id="@+id/jobLocationText"
+            android:id="@+id/jobStreetText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Job Location" />
+            android:hint="Street" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -91,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="Add Images"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_input_layout2" />
