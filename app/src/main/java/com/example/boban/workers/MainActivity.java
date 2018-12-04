@@ -25,13 +25,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_dashboard:
                     selectedFragment = DashboardFragment.newInstance();
-                    //selectedFragment = FragmentDashboard.newInstance();
-                    break;
-                case R.id.navigation_inbox:
-                    //selectedFragment = FragmentInbox.newInstance();
                     break;
                 case R.id.navigation_profile:
-                    //selectedFragment = FragmentProfile.newInstance();
+                    selectedFragment = ProfileFragment.newInstance();
                     break;
             }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
