@@ -68,7 +68,6 @@ public class AddProjectFragment extends Fragment{
                         .setOnPickResult(new IPickResult() {
                             @Override
                             public void onPickResult(PickResult r) {
-                                //TODO: do what you have to...
                                 imgSrc.add(r.getBitmap());
                                 updateRecyclerView();
                             }
@@ -76,7 +75,6 @@ public class AddProjectFragment extends Fragment{
                         .setOnPickCancel(new IPickCancel() {
                             @Override
                             public void onCancelClick() {
-                                //TODO: do what you have to if user clicked cancel
                             }
                         }).show(getFragmentManager());
             }
@@ -90,7 +88,7 @@ public class AddProjectFragment extends Fragment{
                 }
                 Jobs j = new Jobs(jobName.getText().toString(), jobDescription.getText().toString(), images, jobStreet.getText().toString(),
                         jobCity.getText().toString(), Integer.parseInt(jobZip.getText().toString()),
-                        FirebaseAuth.getInstance().getCurrentUser().getUid(), System.currentTimeMillis());
+                        FirebaseAuth.getInstance().getCurrentUser().getUid(), new ArrayList<String>(), "", System.currentTimeMillis(), "Posted", "");
                 db.child("jobs").child(UUID.randomUUID().toString()).setValue(j).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

@@ -5,41 +5,42 @@
 
     <TextView
         android:id="@+id/jobNameText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_gravity="center_vertical|left"/>
 
     <TextView
         android:id="@+id/jobLocationText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="TextView" />
+        android:layout_gravity="center_vertical|left"/>
 
     <TextView
         android:id="@+id/jobStatusText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="TextView" />
+        android:layout_gravity="center_vertical|left"/>
 
     <TextView
         android:id="@+id/jobCostText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="TextView" />
+        android:layout_gravity="center_vertical|left"/>
 </LinearLayout>
