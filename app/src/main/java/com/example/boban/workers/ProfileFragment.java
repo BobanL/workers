@@ -16,6 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 public class ProfileFragment extends Fragment {
     View v;
     TextView userName, numJobsPosted, numJobsCompleted, aboutMe, email, address, phoneNumber;
@@ -88,6 +91,30 @@ public class ProfileFragment extends Fragment {
                 }else{
                     profilePic.setImageResource(R.drawable.ic_account_circle_black_36dp);
                 }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        dbRef = db.getReference("jobs");
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int posted = 0, completed = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Jobs j = snapshot.getValue(Jobs.class);
+                    if(j.getJobWinner() != null && j.getJobWinner().contains(userID)){
+                        completed++;
+                    }
+                    if (j.getJobSubmitter().contains(userID)) {
+                        posted++;
+                    }
+                }
+                numJobsPosted.setText(posted + " Jobs Posted");
+                numJobsCompleted.setText(completed + " Jobs Completed");
             }
 
             @Override

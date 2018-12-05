@@ -108,6 +108,30 @@ public class ProfileEditFragment extends Fragment {
 
             }
         });
+
+        dbRef = db.getReference("jobs");
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int posted = 0, completed = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Jobs j = snapshot.getValue(Jobs.class);
+                    if(j.getJobWinner() != null && j.getJobWinner().contains(userID)){
+                        completed++;
+                    }
+                    if (j.getJobSubmitter().contains(userID)) {
+                        posted++;
+                    }
+                }
+                numJobsPosted.setText(posted + " Jobs Posted");
+                numJobsCompleted.setText(completed + " Jobs Completed");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         //Update Profile Picture
         updateProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
