@@ -25,7 +25,6 @@ import com.vansuita.pickimage.listeners.IPickCancel;
 import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.UUID;
 
 
