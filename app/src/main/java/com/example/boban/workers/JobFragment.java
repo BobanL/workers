@@ -24,7 +24,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -119,8 +122,11 @@ public class JobFragment extends Fragment implements OnMapReadyCallback {
                 Geocoder geocoder = new Geocoder(getContext());
                 try {
                     ArrayList<Address> addresses = (ArrayList) geocoder.getFromLocationName(addressString, 1);
-                    LatLng latLng = new LatLng(addresses.get(0).getLongitude(), addresses.get(0).getLatitude());
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                    LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                    Marker marker = map.addMarker(new MarkerOptions()
+                            .position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                            .draggable(false).visible(true));
                     mapView.onResume();
                 } catch (Exception e) {
 
@@ -266,12 +272,12 @@ public class JobFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        /*for (MarkerOptions m : markers) {
-            googleMap.addMarker(new MarkerOptions()
-                    .position(m.getPosition())
-                    .title(m.getTitle()));
-        }*/
         LatLng latLng = new LatLng(latitude, longitude);
+        if (map != null) {
+            Marker marker = map.addMarker(new MarkerOptions()
+                    .position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                    .draggable(false).visible(true));
+        }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         mapView.onResume();
     }
