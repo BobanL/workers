@@ -13,13 +13,13 @@ public class Jobs {
     private String jobCity;
     private int jobZip;
     private String jobSubmitter;
-    private ArrayList<String> jobBidder;
+    private String jobBidder;
     private String jobWinner;
     private long jobPostedDate;
     private String jobStatus;
     private String jobCost;
 
-    public Jobs(String jobName, String jobDescription, ArrayList<String> jobImages, String jobStreet, String jobCity, int jobZip, String jobSubmitter, ArrayList<String> jobBidder, String jobWinner, long jobPostedDate, String jobStatus, String jobCost) {
+    public Jobs(String jobName, String jobDescription, ArrayList<String> jobImages, String jobStreet, String jobCity, int jobZip, String jobSubmitter, String jobBidder, String jobWinner, long jobPostedDate, String jobStatus, String jobCost) {
         this.jobName = jobName;
         this.jobDescription = jobDescription;
         this.jobImages = jobImages;
@@ -37,11 +37,11 @@ public class Jobs {
     public Jobs() {
     }
 
-    public ArrayList<String> getJobBidder() {
+    public String getJobBidder() {
         return jobBidder;
     }
 
-    public void setJobBidder(ArrayList<String> jobBidder) {
+    public void setJobBidder(String jobBidder) {
         this.jobBidder = jobBidder;
     }
 

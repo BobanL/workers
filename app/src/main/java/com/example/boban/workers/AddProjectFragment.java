@@ -88,7 +88,7 @@ public class AddProjectFragment extends Fragment{
                 }
                 Jobs j = new Jobs(jobName.getText().toString(), jobDescription.getText().toString(), images, jobStreet.getText().toString(),
                         jobCity.getText().toString(), Integer.parseInt(jobZip.getText().toString()),
-                        FirebaseAuth.getInstance().getCurrentUser().getUid(), new ArrayList<String>(), "", System.currentTimeMillis(), "Posted", "");
+                        FirebaseAuth.getInstance().getCurrentUser().getUid(), "", "", System.currentTimeMillis(), "Posted", "");
                 db.child("jobs").child(UUID.randomUUID().toString()).setValue(j).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

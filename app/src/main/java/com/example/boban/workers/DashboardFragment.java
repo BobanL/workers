@@ -2,11 +2,13 @@ package com.example.boban.workers;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ public class DashboardFragment extends Fragment {
     FloatingActionButton addProjectButton;
     ListView listViewJobsPosted, listViewJobsApplied;
     ArrayList<Jobs> jobsPosted = new ArrayList<>(), jobsApplied = new ArrayList<>();
+    ArrayList<String> jobsIDPosted = new ArrayList<>();
+    ArrayList<String> jobsIDApplied = new ArrayList<>();
     FirebaseDatabase db;
     String userID;
 
@@ -60,29 +64,18 @@ public class DashboardFragment extends Fragment {
                     Jobs j = snapshot.getValue(Jobs.class);
                     if(j.getJobBidder() != null && j.getJobBidder().contains(userID)){
                         jobsApplied.add(j);
+                        jobsIDApplied.add(snapshot.getKey());
                     }
                     if (j.getJobSubmitter().contains(userID)) {
                         jobsPosted.add(j);
+                        jobsIDPosted.add(snapshot.getKey());
+
                     }
                 }
-                Collections.sort(jobsApplied, new Comparator<Jobs>() {
-                    @Override
-                    public int compare(Jobs o1, Jobs o2) {
-                        return Double.compare(o1.getJobPostedDate(), o2.getJobPostedDate());
-                    }
-                });
-                Collections.reverse(jobsApplied);
-                Collections.sort(jobsPosted, new Comparator<Jobs>() {
-                    @Override
-                    public int compare(Jobs o1, Jobs o2) {
-                        return Double.compare(o1.getJobPostedDate(), o2.getJobPostedDate());
-                    }
-                });
-                Collections.reverse(jobsPosted);
-
-                adapter = new CustomAdapter(jobsPosted,v.getContext());
+                adapter = new CustomAdapter(jobsPosted,v.getContext(), jobsIDPosted);
                 listViewJobsPosted.setAdapter(adapter);
-                adapter = new CustomAdapter(jobsApplied,v.getContext());
+
+                adapter = new CustomAdapter(jobsApplied,v.getContext(), jobsIDApplied);
                 listViewJobsApplied.setAdapter(adapter);
             }
 
