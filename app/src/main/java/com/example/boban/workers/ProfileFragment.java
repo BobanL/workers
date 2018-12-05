@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +27,7 @@ public class ProfileFragment extends Fragment {
     String userID;
     ImageButton profileEdit;
     ImageView profilePic;
+    TableLayout tableLayout;
     public ProfileFragment() {
     }
 
