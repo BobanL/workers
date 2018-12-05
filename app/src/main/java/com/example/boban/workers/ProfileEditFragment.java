@@ -87,10 +87,10 @@ public class ProfileEditFragment extends Fragment {
                     addressString = dataSnapshot.child("street").getValue().toString();
                 }
                 if(dataSnapshot.child("city").getValue() != null){
-                    addressString = addressString + ", " + dataSnapshot.child("city").getValue().toString();
+                    addressString = addressString + "," + dataSnapshot.child("city").getValue().toString();
                 }
                 if(dataSnapshot.child("zipCode").getValue() != null){
-                    addressString = addressString + ", " + dataSnapshot.child("zipCode").getValue().toString();
+                    addressString = addressString + "," + dataSnapshot.child("zipCode").getValue().toString();
                 }
                 address.setText(addressString);
 
