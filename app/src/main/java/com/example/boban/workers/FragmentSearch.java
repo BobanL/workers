@@ -3,6 +3,8 @@ package com.example.boban.workers;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -31,6 +33,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -44,7 +50,8 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
     View v;
     Location location;
     double longitude, latitude;
-    private DatabaseReference mDatabase;
+    private FirebaseDatabase db;
+    String userID;
 
 
     public FragmentSearch() {
@@ -67,27 +74,37 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
 
             lm = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
             location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
         }
         if(location == null){
-            String zip;
-            mDatabase = FirebaseDatabase.getInstance().getReference("users");
-            Query userZipCode = mDatabase.equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            userZipCode.addListenerForSingleValueEvent(new ValueEventListener() {
+            //DB
+            db = FirebaseDatabase.getInstance();
+            userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            DatabaseReference dbRef = db.getReference("users").child(userID);
+
+            dbRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        child.child("zipCode").getValue(String.class);
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String zipCode = (dataSnapshot.child("zipCode").getValue().toString());
+                    Geocoder geocoder = new Geocoder(v.getContext());
+                    try {
+                        ArrayList<Address> addresses = (ArrayList) geocoder.getFromLocationName(zipCode, 1);
+                        if (addresses != null && !addresses.isEmpty()) {
+                            latitude = addresses.get(0).getLatitude();
+                            longitude = addresses.get(0).getLongitude();
+                            LatLng latLng = new LatLng(latitude, longitude);
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                            mapView.onResume();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
-            latitude = 42.578280;
-            longitude = -83.282840;
         }else{
             longitude = location.getLongitude();
             latitude = location.getLatitude();
