@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "672400606068-i990etk2oids7s7nt4708q56l523io8v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boban.workers",
+            "certificate_hash": "c4db6af834d2e3c570c54b4d3d311de211140f8b"
+          }
+        },
+        {
           "client_id": "672400606068-sfbog3249hrl71da3d5icm7srpfpmnjd.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,6 +38,12 @@
       "api_key": [
         {
           "current_key": "AIzaSyB7BwcdNH55gLnSUGFVSEIpqIUOlJtCb3Q"
+        },
+        {
+          "current_key": "AIzaSyD7xuCJ01lyTSqUl28oZh1M0AVuntaqWO4"
+        },
+        {
+          "current_key": "AIzaSyAo1r1lAKTEaBgfwNgoiT2pw1HSL-_q_bY"
         }
       ],
       "services": {

@@ -14,14 +14,14 @@ import java.util.ArrayList;
 public class RecyclerAdapter_Image extends RecyclerView.Adapter<RecyclerAdapter_Image.ViewHolder>{
     private ArrayList<Bitmap> imageSrc = new ArrayList<>();
     private LayoutInflater mInflater;
-
     // data is passed into the constructor
+
     public RecyclerAdapter_Image(Context context, ArrayList<Bitmap> imageSrc) {
         this.mInflater = LayoutInflater.from(context);
         this.imageSrc = imageSrc;
     }
-
     // inflates the row layout from xml when needed
+
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -10,6 +10,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +43,13 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
     double longitude, latitude;
     private FirebaseDatabase db;
     String userID;
-
+    DatabaseReference dbRef;
+    ArrayList<MarkerOptions> markers;
+    RecyclerView recyclerView;
+    RecyclerAdapter_Card adapter;
+    ArrayList<Jobs> jobs = new ArrayList<>();
+    ArrayList<String> jobsID = new ArrayList<>();
+    Geocoder geocoder;
 
     public FragmentSearch() {
     }
@@ -52,7 +62,47 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        geocoder = new Geocoder(getContext());
+        jobs = new ArrayList<>();
+        jobsID = new ArrayList<>();
         v = inflater.inflate(R.layout.fragment_fragment_search, container, false);
+        db = FirebaseDatabase.getInstance();
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        dbRef = db.getReference("jobs");
+        markers = new ArrayList<>();
+        recyclerView = v.findViewById(R.id.searchResults);
+
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Jobs j = snapshot.getValue(Jobs.class);
+                    jobs.add(j);
+                    jobsID.add(snapshot.getKey());
+                    String address = j.getJobStreet() + "," + j.getJobCity() + "," + j.getJobZip();
+                    try {
+                        ArrayList<Address> addresses = (ArrayList) geocoder.getFromLocationName(address, 1);
+                        LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+                            map.addMarker(new MarkerOptions()
+                                .position(latLng).title(j.getJobName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                                .draggable(false).visible(true));
+                    } catch (Exception e) {
+                    }
+                }
+                //RecyclerView
+                LinearLayoutManager horizontalLayoutManager
+                        = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                recyclerView.setLayoutManager(horizontalLayoutManager);
+                adapter = new RecyclerAdapter_Card(getContext(), jobs, jobsID);
+                recyclerView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         mapView = (MapView) v.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
@@ -66,7 +116,7 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
             //DB
             db = FirebaseDatabase.getInstance();
             userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            DatabaseReference dbRef = db.getReference("users").child(userID);
+            dbRef = db.getReference("users").child(userID);
 
             dbRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -95,7 +145,11 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
         }else{
             longitude = location.getLongitude();
             latitude = location.getLatitude();
+            for (MarkerOptions mark: markers) {
+                map.addMarker(mark);
+            }
         }
+
 
         return v;
     }
@@ -104,6 +158,7 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        mapView.getMapAsync(this);
     }
 
     @Override
@@ -127,11 +182,29 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        /*for (MarkerOptions m : markers) {
-            googleMap.addMarker(new MarkerOptions()
-                    .position(m.getPosition())
-                    .title(m.getTitle()));
-        }*/
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Jobs j = snapshot.getValue(Jobs.class);
+                    String address = j.getJobStreet() + "," + j.getJobCity() + "," + j.getJobZip();
+                    Geocoder geocoder = new Geocoder(getContext());
+                    try {
+                        ArrayList<Address> addresses = (ArrayList) geocoder.getFromLocationName(address, 1);
+                        LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+                        map.addMarker(new MarkerOptions()
+                                .position(latLng).title(j.getJobName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                                .draggable(false).visible(true));
+                    } catch (Exception e) {
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         LatLng latLng = new LatLng(latitude, longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         mapView.onResume();
