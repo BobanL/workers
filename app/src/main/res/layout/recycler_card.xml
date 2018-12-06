@@ -17,26 +17,32 @@
             android:layout_height="20dp"
             android:gravity="center_vertical"
             android:text="contact det"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/txtDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:text="Name"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            />
 
         <TextView
             android:id="@+id/txtCity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtDescription"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_alignEnd="@+id/title"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
             android:text="Surname"
             android:textSize="10dp" />
