@@ -1,10 +1,12 @@
 package com.example.boban.workers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -25,6 +27,7 @@ public class ProfileFragment extends Fragment {
     ImageButton profileEdit;
     ImageView profilePic;
     TableLayout tableLayout;
+    Button signOut;
     public ProfileFragment() {
     }
 
@@ -46,7 +49,16 @@ public class ProfileFragment extends Fragment {
         phoneNumber = v.findViewById(R.id.userPhoneNumber);
         profileEdit = v.findViewById(R.id.editProfilePencil);
         profilePic = v.findViewById(R.id.profilePicture);
+        signOut = v.findViewById(R.id.signOut);
 
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         //DB
         db = FirebaseDatabase.getInstance();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();

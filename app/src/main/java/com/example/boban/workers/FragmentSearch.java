@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +51,8 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
     ArrayList<Jobs> jobs = new ArrayList<>();
     ArrayList<String> jobsID = new ArrayList<>();
     Geocoder geocoder;
+    SearchView searchView;
+    String searchResults;
 
     public FragmentSearch() {
     }
@@ -71,38 +74,9 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
         dbRef = db.getReference("jobs");
         markers = new ArrayList<>();
         recyclerView = v.findViewById(R.id.searchResults);
+        searchView = (SearchView) v.findViewById(R.id.searchBar);
 
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Jobs j = snapshot.getValue(Jobs.class);
-                    jobs.add(j);
-                    jobsID.add(snapshot.getKey());
-                    String address = j.getJobStreet() + "," + j.getJobCity() + "," + j.getJobZip();
-                    try {
-                        ArrayList<Address> addresses = (ArrayList) geocoder.getFromLocationName(address, 1);
-                        LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
-                            map.addMarker(new MarkerOptions()
-                                .position(latLng).title(j.getJobName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                                .draggable(false).visible(true));
-                    } catch (Exception e) {
-                    }
-                }
-                //RecyclerView
-                LinearLayoutManager horizontalLayoutManager
-                        = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-                recyclerView.setLayoutManager(horizontalLayoutManager);
-                adapter = new RecyclerAdapter_Card(getContext(), jobs, jobsID);
-                recyclerView.setAdapter(adapter);
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
         mapView = (MapView) v.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
@@ -150,7 +124,20 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
             }
         }
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                searchResults = s;
+                onMapReady(map);
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        updateMarkers();
         return v;
     }
 
@@ -182,32 +169,63 @@ public class FragmentSearch extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        map.clear();
+        updateMarkers();
+        LatLng latLng = new LatLng(latitude, longitude);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+        mapView.onResume();
+    }
+
+    public void updateMarkers(){
+        jobs.clear();
+        jobsID.clear();
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Jobs j = snapshot.getValue(Jobs.class);
-                    String address = j.getJobStreet() + "," + j.getJobCity() + "," + j.getJobZip();
-                    Geocoder geocoder = new Geocoder(getContext());
-                    try {
-                        ArrayList<Address> addresses = (ArrayList) geocoder.getFromLocationName(address, 1);
-                        LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
-                        map.addMarker(new MarkerOptions()
-                                .position(latLng).title(j.getJobName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                                .draggable(false).visible(true));
-                    } catch (Exception e) {
+                    if(searchResults == null || searchResults.isEmpty()){
+                        jobs.add(j);
+                        jobsID.add(snapshot.getKey());
+                        String address = j.getJobStreet() + "," + j.getJobCity() + "," + j.getJobZip();
+                        try {
+                            ArrayList<Address> addresses = (ArrayList) geocoder.getFromLocationName(address, 1);
+                            LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+                            map.addMarker(new MarkerOptions()
+                                    .position(latLng).title(j.getJobName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                                    .draggable(false).visible(true));
+                        } catch (Exception e) {
+                        }
+
+                    }else if(j.getJobDescription().toLowerCase().contains(searchResults.toLowerCase()) || j.getJobCity().toLowerCase().contains(searchResults.toLowerCase()) || j.getJobName().toLowerCase().contains(searchResults.toLowerCase()) ) {
+                        jobs.add(j);
+                        jobsID.add(snapshot.getKey());
+                        String address = j.getJobStreet() + "," + j.getJobCity() + "," + j.getJobZip();
+                        try {
+                            ArrayList<Address> addresses = (ArrayList) geocoder.getFromLocationName(address, 1);
+                            LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+                            map.addMarker(new MarkerOptions()
+                                    .position(latLng).title(j.getJobName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                                    .draggable(false).visible(true));
+                        } catch (Exception e) {
+                        }
+
                     }
                 }
+                //RecyclerView
+                LinearLayoutManager horizontalLayoutManager
+                        = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                recyclerView.setLayoutManager(horizontalLayoutManager);
+                adapter = new RecyclerAdapter_Card(v.getContext(), jobs, jobsID);
+                recyclerView.setAdapter(adapter);
+
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
-        LatLng latLng = new LatLng(latitude, longitude);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-        mapView.onResume();
     }
 
 }
